@@ -1,0 +1,18 @@
+				xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+				  xxxxx         Steps to deploy a React project to Heroku        xxxxx
+				   xxxx                  Written by Adam Png Y S                 xxxx
+				    xxx                       September 2019                     xxx
+				     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          
+Pre-requisites:
+1) Existing backend project (and database) already deployed to your Heroku cloud app
+2) Fully completed React project
+
+Steps:
+1) Open package.json and update the value of "proxy" from "http://localhost:8080" to your Heroku app URL e.g. "https://myappABC.herokuapp.com"
+2) Open a terminal and run "npm run build"
+3) Verify that a "build" folder has been created and populated in your React project (DO NOT AMEND ANY OF ITS CONTENTS!)
+4) Locate and copy the contents of this build folder in your React project directory
+5) Go into the src/main/resources/static folder of your Spring Boot project directory and paste the contents here
+6) Re-deploy your Spring Boot project to Heroku
+7) Check that you are now able to access your React front-end and Spring Boot back-end online at your Heroku app URL e.g. "https://myappABC.herokuapp.com"

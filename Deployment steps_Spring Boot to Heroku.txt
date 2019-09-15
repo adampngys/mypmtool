@@ -1,0 +1,75 @@
+				xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+				  xxxxx     Steps to deploy a Spring Boot project on Heroku      xxxxx
+				   xxxx                  Written by Adam Png Y S                 xxxx
+				    xxx                       September 2019                     xxx
+				     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Pre-requisites:
+1) Completed coding and verified functionality of Spring Boot back-end
+2) (Preferred) Clone a complete copy of your Spring Boot project directory and use this for deployment in another IDE 
+i.e. original Spring Boot project coded in STS and cloned project to be worked on for deployment in Eclipse
+          
+---------------------------------------------------------------------------------------------------------------------------------------------
+								1. System Setup
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+1.1 Maven CLI
+a) Download and unzip Apache Maven (no installation needed)
+b) Add Maven to Path and System Variables (follow instructional on https://www.mkyong.com/maven/how-to-install-maven-in-windows/)
+
+1.2 Heroku account
+a) Sign up for a Heroku account 
+b) Create a new app e.g. AppABC
+
+1.3 Heroku CLI
+a) Download and install Heroku CLI (remember to select all checkboxes so Path and System Variables are set)
+
+1.4 Git Bash CLI
+a) Download and install
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+							2. Spring Boot project updates
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+2.1 pom.xml
+a) Update with the following (remember to modify the appName accordingly!) >>>
+(i) Add Heroku Maven plugin dependency:
+	<dependency>
+		<groupId>com.heroku.sdk</groupId>
+		<artifactId>heroku-maven-plugin</artifactId>
+		<version>2.0.12</version>
+	</dependency>
+(ii) Add Heroku Maven plugin:
+	<plugin>
+		<groupId>com.heroku.sdk</groupId>
+		<artifactId>heroku-maven-plugin</artifactId>
+		<version>2.0.12</version>
+		<configuration>
+			<appName>AppABC</appName>
+		</configuration>
+	</plugin>
+b) Run Maven Clean Install
+c) Run Maven Update Project
+
+2.2 Procfile
+a) Create a file named "Procfile" (no extensions) at the same level with pom.xml
+b) Go to the "target" folder in your Spring Boot project directory and locate your {project-name}.jar e.g. ABC-0.0.1-SNAPSHOT.jar
+c) Enter the following into Procfile and save it >>> web: java $JAVA_OPTS -jar target/ABC-0.0.1-SNAPSHOT.jar --server.port=$PORT $JAR_OPTS
+d) Run Maven Update Project again
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+						3. Deployment to Heroku from Eclipse IDE
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+*** This deployment instructional assumes that your Spring Boot project is a JAR build. ***
+
+a) Open a new Bash terminal in Eclipse/STS and enter >>> heroku login
+b) Log in to your Heroku account and get your HEROKU_API_KEY by entering >>> heroku auth:token
+c) Note your Heroku app key
+d) Right-click on pom.xml, select "Run As" and choose "2 Maven Build"
+e) At the Main tab, enter at Goals >>> heroku:deploy
+f) At the Environment tab, click on New to create a HEROKU_API_KEY variable with a value that is your HEROKU_API_KEY
+g) Click Apply then Run
+h) If build was successful, you should be able to reach a Whitelabel Error Page when you surf to the project URL in your browser.
+
+For the official guide to deploying from IDE, check out https://devcenter.heroku.com/articles/deploying-java-applications-to-heroku-from-eclipse-or-intellij-idea
