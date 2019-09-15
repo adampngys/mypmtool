@@ -1,0 +1,29 @@
+				xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+				  xxxxx           Steps to deploy database to Heroku             xxxxx
+				   xxxx                  Written by Adam Png Y S                 xxxx
+				    xxx                       September 2019                     xxx
+				     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Note: 
+MySQL Workbench method did not work for me due to persistent server version problem so I used "Database Workbench 5 Lite for MySQL" instead.
+And by replicating all the steps here, it worked. 
+---------------------------------------------------------------------------------------------------------------------------------------------
+								MySQL Workbench method
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+1. Add ClearDB MySQL add-on to your Heroku app
+2. Open application.properties in Spring Boot project and comment out "#spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL57Dialect"
+3. Open a local terminal in STS and enter >>> heroku login
+4. After logging in, enter >>> heroku config --app your_Heroku_app_name
+5. The result will be a mysql URL e.g. mysql://bb309b43fb76fb:4110a662@us-cdbr-iron-east-01.cleardb.net/heroku_a4aodkaosdqo2kp3?reconnect=true
+6. Use that data to update the following in application.properties:
+	spring.datasource.url = jdbc:mysql://us-cdbr-iron-east-01.cleardb.net/heroku_a4aodkaosdqo2kp3?reconnect=true
+	spring.datasource.username=bb309b43fb76fb
+	spring.datasource.password=4110a662
+7. Go to Home page of MySQL Workbench to create a new connection:
+	Hostname = us-cdbr-iron-east-01.cleardb.net
+	Username = bb309b43fb76fb
+	Password = 4110a662
+8. Test Connection and if it works, you should see it in your MySQL Workbench with no tables to the database
+9. Go back to application.properties and add/uncomment "spring.jpa.hibernate.ddl-auto=create-drop" and run your Spring Boot app
+10. You should now see empty tables in your database
